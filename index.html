@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Grupo Rumo Certo - Emaús</title>
+<style>
+body{font:16px Arial,sans-serif;background:#f2f6f3;color:#173b2e;margin:0;padding:18px}.wrap{max-width:850px;margin:auto}header{background:#174d3b;color:white;text-align:center;padding:24px;border-radius:16px}section,.stat{background:white;border:1px solid #dce8df;border-radius:12px;padding:16px;margin:12px 0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat b{font-size:24px;display:block;margin-top:6px}input,button{padding:10px;border-radius:8px;border:1px solid #ccd8d0;font:inherit}button{background:#176044;color:white;border:0;cursor:pointer}table{width:100%;border-collapse:collapse}td{padding:9px 4px;border-bottom:1px solid #eee}.muted{color:#64766c;font-size:13px}.warn{background:#fff7e5;padding:12px;border-radius:9px;font-size:13px}@media(max-width:600px){.stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:span 2}}
+</style></head><body><main class="wrap">
+<header><h1>GRUPO RUMO CERTO</h1><p>EMAÚS · Mensalidades e presença</p></header>
+<div class="stats"><div class="stat">Integrantes<b id="total">0</b></div><div class="stat">Pagaram no mês<b id="paid">0</b></div><div class="stat">Arrecadado<b id="sum">R$ 0,00</b></div></div>
+<section><h2>Mensalidades</h2><label>Mês de referência <input id="month" type="month"></label><p class="muted">Valor fixo: R$ 20,00 por integrante.</p><div id="payments"></div></section>
+<section><h2>Cadastro de integrantes</h2><form id="form"><input id="name" placeholder="Nome do integrante" required><button>Adicionar</button></form><div id="members"></div></section>
+<section><h2>Lista de presença</h2><label>Data do encontro <input id="date" type="date"></label><button id="save">Salvar presença</button><div id="presence"></div></section>
+<section><h2>Administradores</h2><p>João · Pedro Stolfi · Juarez Barasuol · Felipe Wenturini Pinotti</p><p class="muted">Contas individuais serão ativadas na versão com banco de dados.</p></section>
+<p class="warn"><b>Atenção:</b> esta versão inicial salva os dados apenas neste navegador. Para os quatro administradores compartilharem os registros, será necessário conectar banco de dados e autenticação. Não insira dados pessoais ou financeiros reais até essa etapa estar pronta.</p>
+</main><script>
+const K='rumo-certo-emaus';let db={people:[],payments:{},attendance:{}};try{db=JSON.parse(localStorage.getItem(K))||db}catch(e){}
+const $=x=>document.getElementById(x),d=new Date(),ym=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');$('month').value=ym;$('date').value=d.toISOString().slice(0,10);
+const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function draw(){let m=$('month').value||ym,n=db.people.filter(p=>db.payments[m+':'+p.id]).length;$('total').textContent=db.people.length;$('paid').textContent=n;$('sum').textContent=(n*20).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+$('members').innerHTML=db.people.map(p=>'<p>'+safe(p.name)+' <button onclick="del(\''+p.id+'\')">Excluir</button></p>').join('')||'<p class="muted">Nenhum integrante cadastrado.</p>';
+$('payments').innerHTML=db.people.map(p=>'<p>'+safe(p.name)+' <button onclick="pay(\''+p.id+'\')">'+(db.payments[m+':'+p.id]?'Pago ✓':'Marcar pago')+'</button></p>').join('');
+let date=$('date').value,arr=db.attendance[date]||[];$('presence').innerHTML=db.people.map(p=>'<p><label><input type="checkbox" data-id="'+p.id+'" '+(arr.includes(p.id)?'checked':'')+'> '+safe(p.name)+'</label></p>').join('')}
+function save(){localStorage.setItem(K,JSON.stringify(db));draw()}
+$('form').onsubmit=e=>{e.preventDefault();let v=$('name').value.trim();if(v){db.people.push({id:crypto.randomUUID(),name:v});$('name').value='';save()}};
+window.pay=id=>{let k=($('month').value||ym)+':'+id;if(db.payments[k])delete db.payments[k];else db.payments[k]=true;save()};
+window.del=id=>{if(confirm('Excluir integrante?')){db.people=db.people.filter(p=>p.id!==id);Object.keys(db.payments).forEach(k=>{if(k.endsWith(':'+id))delete db.payments[k]});save()}};
+$('month').onchange=draw;$('date').onchange=draw;$('save').onclick=()=>{db.attendance[$('date').value]=[...document.querySelectorAll('[data-id]:checked')].map(x=>x.dataset.id);save();alert('Presenças salvas neste aparelho.')};draw();
+</script></body></html>
