@@ -1,8 +1,46 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Grupo Rumo Certo - Emaús</title>
 <style>
+/* Acesso Rumo Certo — identidade visual preta e dourada */
+body{background:#090909;color:#f6f2e9}
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:34px 16px;background:radial-gradient(ellipse at 50% 20%,#242018 0,#090909 58%,#050505 100%);position:relative;overflow:hidden}
+.login-screen:before,.login-screen:after{content:"";position:absolute;width:420px;height:900px;border:3px solid rgba(218,166,73,.45);border-radius:50%;transform:rotate(35deg);pointer-events:none}
+.login-screen:before{left:-310px;top:-250px;box-shadow:0 0 18px #b98532}.login-screen:after{right:-340px;bottom:-500px}
+.login-inner{width:min(100%,760px);position:relative;z-index:1;text-align:center}
+.brand-mark{width:118px;height:118px;margin:0 auto 14px;border:2px solid #d8aa58;border-radius:50%;display:grid;place-items:center;color:#f7f4ed;font-size:52px;background:linear-gradient(145deg,#26231d,#080808);box-shadow:0 0 25px #b8873b55}
+.brand-title{font-size:40px;line-height:1.02;font-weight:900;letter-spacing:1px;color:#fff;margin:0 0 34px}
+.login-card{max-width:680px;margin:auto;padding:34px 38px 30px;border:1px solid #8d6a35;border-radius:30px;background:linear-gradient(145deg,rgba(31,29,26,.94),rgba(8,8,8,.97));box-shadow:0 0 26px #d7a84b22,inset 0 0 20px #ffffff08}
+.login-card h2{font-size:30px;color:#fff;margin:0 0 8px}.login-sub{font-size:18px;color:#aaa;margin:0 0 28px}
+.login-field{display:flex;align-items:center;gap:14px;border:2px solid #59544c;border-radius:18px;padding:0 18px;margin:14px 0;background:#111}.login-field span{font-size:25px;color:#e5d6b7}.login-field input{width:100%;min-width:0;border:0;background:transparent;color:#fff;padding:17px 4px;outline:none}.login-field input::placeholder{color:#c5c0b8}
+.login-options{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:#eee;margin:18px 0 28px}.login-options label{display:flex;align-items:center;gap:8px}.login-options input{accent-color:#d9a84e}
+.gold-button{width:100%;border:0;border-radius:16px;padding:17px;background:linear-gradient(100deg,#f4cf7a,#c58a32);color:#16110a;font-size:22px;font-weight:800;box-shadow:0 4px 20px #d49b3b33}
+.login-link{border:0;background:none;color:#efc56f;padding:4px;font-size:15px}.demo-link{display:block;margin:18px auto 0;background:transparent;border:1px solid #80643b;color:#e7d4ae;font-size:14px;padding:10px 16px}
+.login-note{max-width:650px;margin:16px auto 0;color:#aaa;font-size:12px;line-height:1.5}
+#appContent{display:none;max-width:850px;margin:0 auto;padding:18px;color:#173b2e}
+#appContent header{background:#174d3b;color:white}
+body.app-open{background:#f2f6f3}
+@media(max-width:600px){.login-card{padding:26px 18px;border-radius:22px}.brand-title{font-size:34px}.login-card h2{font-size:25px}.login-sub{font-size:16px}.login-field input{padding:14px 2px}}
+
 body{font:16px Arial,sans-serif;background:#f2f6f3;color:#173b2e;margin:0;padding:18px}.wrap{max-width:850px;margin:auto}header{background:#174d3b;color:white;text-align:center;padding:24px;border-radius:16px}section,.stat{background:white;border:1px solid #dce8df;border-radius:12px;padding:16px;margin:12px 0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat b{font-size:24px;display:block;margin-top:6px}input,button{padding:10px;border-radius:8px;border:1px solid #ccd8d0;font:inherit}button{background:#176044;color:white;border:0;cursor:pointer}table{width:100%;border-collapse:collapse}td{padding:9px 4px;border-bottom:1px solid #eee}.muted{color:#64766c;font-size:13px}.warn{background:#fff7e5;padding:12px;border-radius:9px;font-size:13px}@media(max-width:600px){.stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:span 2}}
-</style></head><body><main class="wrap">
+</style></head><body>
+<div class="login-screen" id="loginScreen">
+ <div class="login-inner">
+  <div class="brand-mark" aria-hidden="true">✦</div>
+  <h1 class="brand-title">RUMO<br>CERTO</h1>
+  <section class="login-card">
+   <h2>Acesse sua conta</h2><p class="login-sub">Informe seus dados para entrar.</p>
+   <form id="loginForm">
+    <div class="login-field"><span aria-hidden="true">♙</span><input id="loginUser" type="text" autocomplete="username" placeholder="Usuário ou E-mail" aria-label="Usuário ou E-mail" required></div>
+    <div class="login-field"><span aria-hidden="true">♙</span><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Senha" aria-label="Senha" required></div>
+    <div class="login-options"><label><input type="checkbox" id="rememberLogin"> Lembrar meu acesso</label><button type="button" class="login-link" id="forgotPassword">Esqueci minha senha</button></div>
+    <button class="gold-button" type="submit">Entrar　➜</button>
+   </form>
+   <button class="demo-link" type="button" id="demoAccess">Visualizar sistema atual (modo demonstração)</button>
+  </section>
+  <p class="login-note">A autenticação ainda precisa ser configurada. A demonstração não exige senha e os dados ficam somente neste navegador; não utilize informações financeiras reais nesta versão.</p>
+ </div>
+</div>
+<div id="appContent"><main class="wrap">
 <header><h1>GRUPO RUMO CERTO</h1><p>EMAÚS · Mensalidades e presença</p></header>
 <div class="stats"><div class="stat">Integrantes<b id="total">0</b></div><div class="stat">Pagaram no mês<b id="paid">0</b></div><div class="stat">Arrecadado<b id="sum">R$ 0,00</b></div></div>
 <section><h2>Mensalidades</h2><label>Mês de referência <input id="month" type="month"></label><p class="muted">Valor fixo: R$ 20,00 por integrante.</p><div id="payments"></div></section>
@@ -10,7 +48,11 @@ body{font:16px Arial,sans-serif;background:#f2f6f3;color:#173b2e;margin:0;paddin
 <section><h2>Lista de presença</h2><label>Data do encontro <input id="date" type="date"></label><button id="save">Salvar presença</button><div id="presence"></div></section>
 <section><h2>Administradores</h2><p>João · Pedro Stolfi · Juarez Barasuol · Felipe Wenturini Pinotti</p><p class="muted">Contas individuais serão ativadas na versão com banco de dados.</p></section>
 <p class="warn"><b>Atenção:</b> esta versão inicial salva os dados apenas neste navegador. Para os quatro administradores compartilharem os registros, será necessário conectar banco de dados e autenticação. Não insira dados pessoais ou financeiros reais até essa etapa estar pronta.</p>
-</main><script>
+</main></div><script>
+const loginScreen=document.getElementById('loginScreen'),appContent=document.getElementById('appContent');
+document.getElementById('loginForm').addEventListener('submit',e=>{e.preventDefault();alert('O login seguro ainda não está ativo. Primeiro precisamos conectar o sistema a um serviço de autenticação e criar as quatro contas.');});
+document.getElementById('forgotPassword').addEventListener('click',()=>alert('A recuperação de senha será habilitada quando a autenticação estiver configurada.'));
+document.getElementById('demoAccess').addEventListener('click',()=>{loginScreen.style.display='none';appContent.style.display='block';document.body.classList.add('app-open');});
 const K='rumo-certo-emaus';let db={people:[],payments:{},attendance:{}};try{db=JSON.parse(localStorage.getItem(K))||db}catch(e){}
 const $=x=>document.getElementById(x),d=new Date(),ym=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');$('month').value=ym;$('date').value=d.toISOString().slice(0,10);
 const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
