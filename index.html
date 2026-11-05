@@ -22,6 +22,42 @@ body.app-open{background:#f2f6f3}
 @media(max-width:600px){.brand-mark{height:185px;width:min(75vw,245px)}.login-card{width:100%;padding:26px 18px;border-radius:22px}.brand-title{font-size:42px;margin-bottom:34px}.login-card h2{font-size:25px}.login-sub{font-size:16px}.login-field input{padding:14px 2px}}
 
 body{font:16px Arial,sans-serif;background:#f2f6f3;color:#173b2e;margin:0;padding:18px}.wrap{max-width:850px;margin:auto}header{background:#174d3b;color:white;text-align:center;padding:24px;border-radius:16px}section,.stat{background:white;border:1px solid #dce8df;border-radius:12px;padding:16px;margin:12px 0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat b{font-size:24px;display:block;margin-top:6px}input,button{padding:10px;border-radius:8px;border:1px solid #ccd8d0;font:inherit}button{background:#176044;color:white;border:0;cursor:pointer}table{width:100%;border-collapse:collapse}td{padding:9px 4px;border-bottom:1px solid #eee}.muted{color:#64766c;font-size:13px}.warn{background:#fff7e5;padding:12px;border-radius:9px;font-size:13px}@media(max-width:600px){.stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:span 2}}
+
+/* Refinamento visual e microinterações */
+.login-screen{isolation:isolate;min-height:100svh;padding:48px 20px;background:radial-gradient(ellipse at 50% 16%,#302718 0%,#15120d 32%,#080808 72%,#030303 100%)}
+.login-screen:before,.login-screen:after{z-index:-1;will-change:transform;animation:orbitGlow 18s ease-in-out infinite alternate}
+.login-screen:after{animation-delay:-9s}
+.login-screen:before{border-color:rgba(239,190,93,.5);box-shadow:0 0 25px #d69d3b44, inset 0 0 25px #d69d3b18}
+.login-inner{animation:loginEnter .9s cubic-bezier(.2,.75,.25,1) both}
+.brand-mark{height:255px;animation:logoFloat 5s ease-in-out 1s infinite}
+.brand-mark svg{overflow:visible;filter:drop-shadow(0 0 10px #fff3) drop-shadow(0 0 22px #d9a84e22);animation:logoGlow 4s ease-in-out infinite}
+.brand-title{background:linear-gradient(180deg,#fff 20%,#f4e6c7 70%,#d9ad5e);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 8px 28px #d8a84a20;letter-spacing:2px}
+.login-card{position:relative;overflow:hidden;border:1px solid #b58a49;background:linear-gradient(145deg,rgba(30,28,24,.97),rgba(8,8,8,.98));box-shadow:0 22px 75px #000b,0 0 34px #d7a84b20,inset 0 1px 0 #fff2;animation:cardReveal .85s .18s cubic-bezier(.2,.75,.25,1) both}
+.login-card:before{content:"";position:absolute;inset:0 auto 0 -45%;width:35%;background:linear-gradient(100deg,transparent,#fff1,transparent);transform:skewX(-18deg);pointer-events:none;animation:cardSweep 8s 1.5s ease-in-out infinite}
+.login-card h2{letter-spacing:.2px}
+.login-field{position:relative;transition:border-color .25s,box-shadow .25s,transform .25s;background:linear-gradient(110deg,#111,#15130f)}
+.login-field:focus-within{border-color:#e6bd70;box-shadow:0 0 0 4px #d6a64b20,0 0 22px #d6a64b19;transform:translateY(-2px)}
+.login-field span{transition:transform .25s,color .25s}
+.login-field:focus-within span{color:#ffd783;transform:scale(1.08)}
+.login-field input{font-size:17px}
+.gold-button{position:relative;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s,filter .2s;background:linear-gradient(105deg,#f7d88e 0%,#e5b75d 48%,#c58a32 100%);box-shadow:0 8px 24px #d49b3b35,inset 0 1px 0 #fff8}
+.gold-button:before{content:"";position:absolute;top:-80%;left:-35%;width:25%;height:260%;transform:rotate(25deg);background:#fff8;transition:left .65s}
+.gold-button:hover{transform:translateY(-3px);box-shadow:0 13px 32px #d49b3b55;filter:brightness(1.06)}
+.gold-button:hover:before{left:120%}
+.gold-button:active{transform:translateY(0) scale(.99)}
+.login-link,.demo-link{cursor:pointer;transition:color .2s,border-color .2s,background .2s,transform .2s}
+.login-link:hover{color:#ffe2a0;text-decoration:underline}
+.demo-link:hover{border-color:#e7bd70;background:#d5a34b12;transform:translateY(-2px)}
+.login-note{color:#b8b1a4}
+@keyframes loginEnter{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardReveal{from{opacity:0;transform:translateY(28px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes logoGlow{0%,100%{filter:drop-shadow(0 0 8px #fff2) drop-shadow(0 0 14px #d9a84e18)}50%{filter:drop-shadow(0 0 13px #fff5) drop-shadow(0 0 26px #d9a84e44)}}
+@keyframes orbitGlow{0%{transform:rotate(31deg) translateY(-12px)}100%{transform:rotate(39deg) translateY(18px)}}
+@keyframes cardSweep{0%,65%{left:-45%}85%,100%{left:125%}}
+@media(max-width:600px){.login-screen{padding:28px 16px}.brand-mark{height:185px;width:min(75vw,245px)}.brand-title{font-size:44px;margin-bottom:30px}.login-card{width:100%;padding:28px 20px;border-radius:24px}.login-field input{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.login-inner,.brand-mark,.brand-mark svg,.login-card,.login-screen:before,.login-screen:after,.login-card:before{animation:none!important}.gold-button,.login-field,.demo-link{transition:none!important}}
+
 </style></head><body>
 <div class="login-screen" id="loginScreen">
  <div class="login-inner">
